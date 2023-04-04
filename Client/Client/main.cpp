@@ -1,11 +1,3 @@
-/**
- * ·şÎñÆ÷:
- * ip:162.14.74.178
- * user: guest, passwd: helloworld(ÎŞÈ¨ÏŞ)
- * user: lihua, passwd: lizehua21(ÓĞÈ¨ÏŞ)
- * user: root, passwd: 030316
- * wd: /home/lihau/project/chatroom_server/
- */
 #define _CRT_SECURE_NO_WARNINGS 
 #include<Winsock2.h>
 #include <Ws2tcpip.h>
@@ -52,7 +44,7 @@ unsigned RecvMsg(void* arg)
 }
 
 int main(void) {
-	//³õÊ¼»¯socket»·¾³
+	//åˆå§‹åŒ–socketç¯å¢ƒ
 	WORD wVersionRequested;
 	WSADATA wsaData;
 	int err;
@@ -71,34 +63,34 @@ int main(void) {
 		return -1;
 	}
 //======================================================================
-	//´´½¨socket
+	//åˆ›å»ºsocket
 	SOCKET hSock;
 	hSock = socket(AF_INET, SOCK_STREAM, 0);
 
-	//°ó¶¨¶Ë¿Ú
+	//ç»‘å®šç«¯å£
 	SOCKADDR_IN servAdr;
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
 	servAdr.sin_port = htons(9999);
 	inet_pton(AF_INET, "162.14.74.178", &servAdr.sin_addr);
 
-	//Á¬½Ó·şÎñÆ÷
-	if (connect(hSock, (SOCKADDR*)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)// ! ¿¨ÔÚÕâÀïÁ¬²»ÉÏÁË 
+	//è¿æ¥æœåŠ¡å™¨
+	if (connect(hSock, (SOCKADDR*)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)// ! å¡åœ¨è¿™é‡Œè¿ä¸ä¸Šäº† 
 	{
 		printf("connect error : %d", GetLastError());
 		return -1;
 	}else {
-		printf("»¶Ó­Äã£¬ÎÒµÄÅóÓÑ¡£ÇëÊäÈëÄãµÄÁÄÌìÓÃ»§Ãû£º");
-		//¼ÓÉÏÁ¬½Ó³É¹¦ÌáÊ¾Òô
+		printf("æ¬¢è¿ä½ ï¼Œæˆ‘çš„æœ‹å‹ã€‚è¯·è¾“å…¥ä½ çš„èŠå¤©ç”¨æˆ·åï¼š");
+		//åŠ ä¸Šè¿æ¥æˆåŠŸæç¤ºéŸ³
 	}
 
-	//Ñ­»··¢ÏûÏ¢
+	//å¾ªç¯å‘æ¶ˆæ¯
 	HANDLE hSendHand = CreateThread(NULL, 0,(LPTHREAD_START_ROUTINE) SendMsg,(void*)&hSock, 0, NULL);
 	
-	//Ñ­»·ÊÕÏûÏ¢
+	//å¾ªç¯æ”¶æ¶ˆæ¯
 	HANDLE hRecvHand = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)RecvMsg, (void*)&hSock, 0, NULL);
 	
-	//µÈ´ıÏß³Ì½áÊø
+	//ç­‰å¾…çº¿ç¨‹ç»“æŸ
 
 	WaitForSingleObject(hSendHand, INFINITE);
 	closesocket(hSock);
