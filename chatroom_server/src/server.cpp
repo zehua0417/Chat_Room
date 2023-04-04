@@ -1,7 +1,7 @@
 #include"../include/header.h"
 #include"../include/server.h"
 
-Server::Server():m_port(9159){};
+Server::Server():m_port(9999){};
 Server::Server(unsigned int port):m_port(port){};//安全性漏洞, 但是问题不大
 
 int Server::init_epoll(){
@@ -11,6 +11,7 @@ int Server::init_epoll(){
         perror("epoll creat error\n");
         return -1;
     }
+    std::cout << "epoll create successfully" << std::endl;
 
     //创建用于监听的socket
     m_sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -18,6 +19,7 @@ int Server::init_epoll(){
         perror("socket creat error\n");
         return -1;
     }
+    std::cout << "socket create successfully" << std::endl;
 
     //绑定本地的ip和端口
     m_addr.sin_family = AF_INET;
@@ -29,6 +31,7 @@ int Server::init_epoll(){
         perror("bind error\n");
         return -1;
     }
+    std::cout << "bind successfully" << std::endl;
 
     //监听Client
     listen(m_sockfd, MAX_CONNECT);
@@ -36,6 +39,7 @@ int Server::init_epoll(){
         perror("listen error\n");
         return -1;
     }
+    std::cout << "listen successfully" << std::endl;
 
     return 0;
 }
@@ -50,8 +54,11 @@ int Server::start_epoll(){
         perror("epoll_ctl error\n");
         return -1;
     }
+    std::cout << "epoll_ctl successfully" << std::endl;
 
     //开始循环监听客户端
+    printf("1\n");
+    std::cout << "start listen client" << std::endl;
     while(1){
         int n = epoll_wait(m_epld, m_evs, MAX_CONNECT, -1);
 
@@ -64,6 +71,7 @@ int Server::start_epoll(){
             int fd = m_evs[i].data.fd;
             //如果是监听的fd收到消息, 表示有客户端进行连接了
             if(fd == m_sockfd){
+		std::cout << "Client connecting" << std::endl;
                 struct sockaddr_in client_addr;
                 socklen_t client_addr_len = sizeof(client_addr);
                 int client_sockfd = accept(m_sockfd, (struct sockaddr*) &client_addr, &client_addr_len);
@@ -71,6 +79,7 @@ int Server::start_epoll(){
                     perror("connect error");
                     return -1;
                 }
+		std::cout << "connect successfully" << std::endl;
 
                 //将客户端的socket接入epoll
                 m_ev_client.events = EPOLLIN; //检测客户端消息
@@ -91,7 +100,7 @@ int Server::start_epoll(){
                 char buffer[TXT_SIZE];
                 int txt_length = read(fd,buffer,TXT_SIZE);
                 if(txt_length < 0){
-                    perror("txt length < 0\n");
+                    perror("error: txt length < 0\n");
                     return -1;
                 }else if(txt_length == 0){
                     //断开连接
@@ -99,7 +108,7 @@ int Server::start_epoll(){
                     epoll_ctl(m_epld, EPOLL_CTL_DEL, fd, 0);
                     m_clients.erase(fd);
                 }else{
-                    std::string msg(buffer, n);
+                    std::string msg(buffer, txt_length);
                     if(m_clients[fd].m_name == ""){//如果姓名为空, 说明该消息为用户名
                         m_clients[fd].m_name = msg;
                     }else{//消息为聊天消息

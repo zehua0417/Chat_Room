@@ -6,11 +6,9 @@
  * @brief 用于保存客户端用户信息
  */
 class Client{
-//private:
 public:
     int m_sockfd;
     std::string m_name;
-
 };
 
 /**
