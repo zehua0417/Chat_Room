@@ -1,0 +1,19 @@
+﻿D:\Program Files\VIsualStudio2022\IDE\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(正式.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  Client.cpp
+D:\桌面\chatroom_client\正式\Client.cpp(43,87): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+  cursor.cpp
+  edit.cpp
+  Encrypt.cpp
+D:\桌面\chatroom_client\正式\Encrypt.cpp(62,119): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\桌面\chatroom_client\正式\Encrypt.cpp(68,128): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+  logon_graph.cpp
+D:\桌面\chatroom_client\正式\logon_graph.cpp(90,7): warning C4930: “Edit edit(void)”: 未调用原型函数(是否是有意用变量定义的?)
+  rect.cpp
+  timer.cpp
+  Usersdata.cpp
+D:\桌面\chatroom_client\正式\Usersdata.cpp(13,70): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+D:\桌面\chatroom_client\正式\Usersdata.cpp(33,15): warning C4477: “sprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 3 拥有了类型“std::string”
+  main.cpp
+  正在生成代码...
+    正在创建库 D:\桌面\chatroom_client\x64\Debug\client.lib 和对象 D:\桌面\chatroom_client\x64\Debug\client.exp
+  正式.vcxproj -> D:\桌面\chatroom_client\x64\Debug\client.exe
